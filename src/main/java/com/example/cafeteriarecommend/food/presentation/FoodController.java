@@ -27,4 +27,12 @@ public class FoodController {
         return ResponseEntity.ok(ApiResponse.success(foodInfoResponse));
     }
 
+    @GetMapping("{foodUUID}")
+    ResponseEntity<ApiResponse<FoodInfoResponse>> readByUUID(
+            @PathVariable final String foodUUID
+    ){
+        FoodInfoResponse foodInfoResponse = foodService.findByFoodUUID(foodUUID);
+        return ResponseEntity.ok(ApiResponse.success(foodInfoResponse));
+    }
+
 }

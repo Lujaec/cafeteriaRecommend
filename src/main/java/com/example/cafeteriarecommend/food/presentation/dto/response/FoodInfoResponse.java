@@ -1,21 +1,16 @@
-package com.example.cafeteriarecommend.food.domain;
+package com.example.cafeteriarecommend.food.presentation.dto.response;
 
-import jakarta.persistence.*;
+import com.example.cafeteriarecommend.food.domain.FoodCategory;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
-public class Food {
-    @Id
-    @GeneratedValue
-    private Long id;
+public class FoodInfoResponse {
     private String imageUrl;
     private String name;
     private String price;
     private String place;
-    @Enumerated(EnumType.STRING)
     private FoodCategory category;
     private Double rating;
     private String foodUUID;

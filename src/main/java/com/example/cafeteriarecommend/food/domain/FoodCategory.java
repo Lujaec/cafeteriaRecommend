@@ -16,7 +16,6 @@ public enum FoodCategory {
 
     @JsonCreator
     public static FoodCategory from(String category) {
-        log.info("here");
         return FoodCategory.valueOf(category.toUpperCase());
     }
 

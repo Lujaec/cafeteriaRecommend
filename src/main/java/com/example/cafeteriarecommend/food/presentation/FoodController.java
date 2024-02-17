@@ -4,6 +4,7 @@ import com.example.cafeteriarecommend.food.application.FoodService;
 import com.example.cafeteriarecommend.food.application.dto.FoodCreateDto;
 import com.example.cafeteriarecommend.food.presentation.dto.request.FoodCreateRequest;
 import com.example.cafeteriarecommend.food.presentation.dto.response.FoodInfoResponse;
+import com.example.cafeteriarecommend.food.presentation.dto.response.FoodInfoResponses;
 import com.example.cafeteriarecommend.utill.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -35,4 +36,11 @@ public class FoodController {
         return ResponseEntity.ok(ApiResponse.success(foodInfoResponse));
     }
 
+    @GetMapping()
+    ResponseEntity<ApiResponse<FoodInfoResponses>> readByCategory(
+            @RequestParam String category
+    ){
+        FoodInfoResponses foodInfoResponses = foodService.findByCategory(category);
+        return ResponseEntity.ok(ApiResponse.success(foodInfoResponses));
+    }
 }

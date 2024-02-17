@@ -2,8 +2,10 @@ package com.example.cafeteriarecommend.food.application;
 
 import com.example.cafeteriarecommend.food.application.dto.FoodCreateDto;
 import com.example.cafeteriarecommend.food.domain.Food;
+import com.example.cafeteriarecommend.food.domain.FoodCategory;
 import com.example.cafeteriarecommend.food.domain.FoodRepository;
 import com.example.cafeteriarecommend.food.presentation.dto.response.FoodInfoResponse;
+import com.example.cafeteriarecommend.food.presentation.dto.response.FoodInfoResponses;
 import com.example.cafeteriarecommend.global.exception.CustomException;
 import com.example.cafeteriarecommend.global.error.ErrorCode;
 import com.example.cafeteriarecommend.utill.FileStore;
@@ -11,8 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -47,5 +51,20 @@ public class FoodService {
 
         Food food = foodOptional.get();
         return mapper.map(food, FoodInfoResponse.class);
+    }
+
+    public FoodInfoResponses findByCategory(final String category){
+        FoodCategory foodCategory = FoodCategory.valueOf(category.toUpperCase());
+
+        List<Food> foodList = foodRepository.findAllByCategory(foodCategory);
+        return convertFoodInfoResponses(foodList);
+    }
+
+    private FoodInfoResponses convertFoodInfoResponses(final List<Food> foodList){
+        List<FoodInfoResponse> foodInfoResponseList = foodList.stream().map(
+                (e) -> mapper.map(e, FoodInfoResponse.class)
+        ).collect(Collectors.toList());
+
+        return new FoodInfoResponses(foodInfoResponseList);
     }
 }

@@ -2,13 +2,16 @@ package com.example.cafeteriarecommend.food.presentation;
 
 import com.example.cafeteriarecommend.food.application.FoodService;
 import com.example.cafeteriarecommend.food.application.dto.FoodCreateDto;
+import com.example.cafeteriarecommend.food.application.dto.FoodReadCondDto;
 import com.example.cafeteriarecommend.food.presentation.dto.request.FoodCreateRequest;
+import com.example.cafeteriarecommend.food.presentation.dto.request.FoodReadRequest;
 import com.example.cafeteriarecommend.food.presentation.dto.response.FoodInfoResponse;
 import com.example.cafeteriarecommend.food.presentation.dto.response.FoodInfoResponses;
 import com.example.cafeteriarecommend.utill.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,9 +41,13 @@ public class FoodController {
 
     @GetMapping()
     ResponseEntity<ApiResponse<FoodInfoResponses>> readByCategory(
-            @RequestParam String category
+            @ModelAttribute FoodReadRequest request,
+            Pageable pageable
     ){
-        FoodInfoResponses foodInfoResponses = foodService.findByCategory(category);
+        FoodReadCondDto dto = mapper.map(request, FoodReadCondDto.class);
+        FoodInfoResponses foodInfoResponses = foodService.findAllByCategoryAndPlace(dto, pageable);
         return ResponseEntity.ok(ApiResponse.success(foodInfoResponses));
     }
+
+    //pagenation
 }

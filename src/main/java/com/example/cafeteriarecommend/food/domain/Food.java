@@ -19,4 +19,5 @@ public class Food {
     private FoodCategory category;
     private Double rating;
     private String foodUUID;
+    private Long reviewCnt=0L;
 }

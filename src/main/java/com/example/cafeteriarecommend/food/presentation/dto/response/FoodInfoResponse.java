@@ -14,4 +14,5 @@ public class FoodInfoResponse {
     private FoodCategory category;
     private Double rating;
     private String foodUUID;
+    private Integer reviewCnt;
 }

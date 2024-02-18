@@ -4,6 +4,7 @@ import com.example.cafeteriarecommend.review.application.ReviewService;
 import com.example.cafeteriarecommend.review.application.dto.ReviewCreateDto;
 import com.example.cafeteriarecommend.review.presentation.dto.request.ReviewCreateRequest;
 import com.example.cafeteriarecommend.review.presentation.dto.response.ReviewInfoResponse;
+import com.example.cafeteriarecommend.review.presentation.dto.response.ReviewInfoResponses;
 import com.example.cafeteriarecommend.utill.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -34,5 +35,13 @@ public class ReviewController {
 
         ReviewInfoResponse reviewInfoResponse = reviewService.create(dto);
         return ResponseEntity.ok(ApiResponse.success(reviewInfoResponse));
+    }
+
+    @GetMapping("/{foodUUID}")
+    ResponseEntity<ApiResponse<ReviewInfoResponses>> findAllByFoodUUID(
+            @PathVariable String foodUUID
+    ){
+        ReviewInfoResponses reviewInfoResponses = reviewService.findAllByFoodUUID(foodUUID);
+        return ResponseEntity.ok(ApiResponse.success(reviewInfoResponses));
     }
 }

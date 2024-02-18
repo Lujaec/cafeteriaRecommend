@@ -9,7 +9,9 @@ import com.example.cafeteriarecommend.food.presentation.dto.response.FoodInfoRes
 import com.example.cafeteriarecommend.food.presentation.dto.response.FoodInfoResponses;
 import com.example.cafeteriarecommend.global.exception.CustomException;
 import com.example.cafeteriarecommend.global.error.ErrorCode;
+import com.example.cafeteriarecommend.review.application.dto.ReviewCreateDto;
 import com.example.cafeteriarecommend.utill.FileStore;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@Transactional
 @RequiredArgsConstructor
 public class FoodService {
     private final FoodRepository foodRepository;
@@ -71,6 +74,24 @@ public class FoodService {
 
         Page<Food> retPage = foodRepository.findAllByCategoryAndPlace(foodCategory, place, pageable);
         return convertFoodInfoResponses(retPage.getContent());
+    }
+
+    public FoodInfoResponse updateFoodReview(ReviewCreateDto dto){
+        Double score = dto.getScore();
+
+        Optional<Food> foodOptional = foodRepository.findByFoodUUID(dto.getFoodUUID());
+        if(foodOptional.isEmpty()){
+            throw new CustomException(ErrorCode.FOOD_NOT_FOUND);
+        }
+
+        Food food = foodOptional.get();
+
+        Long reviewCnt = food.getReviewCnt();
+        food.setReviewCnt(++reviewCnt);
+        food.setRating((food.getRating() * (reviewCnt - 1) + score) / reviewCnt);
+
+        FoodInfoResponse foodInfoResponse = mapper.map(food, FoodInfoResponse.class);
+        return foodInfoResponse;
     }
 
     private FoodInfoResponses convertFoodInfoResponses(final List<Food> foodList){

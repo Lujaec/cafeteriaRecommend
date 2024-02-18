@@ -1,9 +1,10 @@
 package com.example.cafeteriarecommend.member.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.cafeteriarecommend.review.domain.Review;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Member {
@@ -12,7 +13,7 @@ public class Member {
     private Long id;
     private String name;
     private String email;
-
-    //TDD
-    //Review 클래스
+    private String memberUUID;
+    @OneToMany(mappedBy = "member")
+    private List<Review> reviews = new ArrayList<>();
 }

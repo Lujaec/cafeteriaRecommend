@@ -19,6 +19,7 @@ bin/
 
 ### IntelliJ IDEA ###
 application-s3.yml
+application-kakao.yml
 .idea
 *.iws
 *.iml

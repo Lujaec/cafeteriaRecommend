@@ -17,7 +17,7 @@ public class Food {
     private String place;
     @Enumerated(EnumType.STRING)
     private FoodCategory category;
-    private Double rating;
+    private Double rating = 0D;
     private String foodUUID;
     private Long reviewCnt=0L;
 }

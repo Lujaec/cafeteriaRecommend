@@ -59,8 +59,6 @@ public class FoodService {
         return mapper.map(food, FoodInfoResponse.class);
     }
 
-
-    
     public FoodInfoResponses findAllByCategoryAndPlace(final FoodReadCondDto dto, Pageable pageable){
         final FoodCategory foodCategory = FoodCategory.valueOf(dto.getCategory().toUpperCase());
         final String place = dto.getPlace();

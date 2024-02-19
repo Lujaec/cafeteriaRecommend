@@ -19,7 +19,7 @@ bin/
 
 ### IntelliJ IDEA ###
 application-s3.yml
-application-kakao.yml
+application-jwt.yml
 application-db.yml
 .idea
 *.iws

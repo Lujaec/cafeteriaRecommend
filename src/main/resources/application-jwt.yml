@@ -1,0 +1,6 @@
+jwt:
+  secretKey: VlwEyVBsYt9V7zq57TejMiejgiejrgisfhwuASDADSWdiwada1231nfnfe
+
+  access:
+    expiration: 7200 # 2시간
+    header: Authorization

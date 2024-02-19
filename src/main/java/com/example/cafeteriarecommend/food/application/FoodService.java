@@ -19,9 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -61,12 +59,7 @@ public class FoodService {
         return mapper.map(food, FoodInfoResponse.class);
     }
 
-    public FoodInfoResponses findByCategory(final String category){
-        FoodCategory foodCategory = FoodCategory.valueOf(category.toUpperCase());
 
-        List<Food> foodList = foodRepository.findAllByCategory(foodCategory);
-        return convertFoodInfoResponses(foodList);
-    }
     
     public FoodInfoResponses findAllByCategoryAndPlace(final FoodReadCondDto dto, Pageable pageable){
         final FoodCategory foodCategory = FoodCategory.valueOf(dto.getCategory().toUpperCase());
@@ -94,6 +87,27 @@ public class FoodService {
         return foodInfoResponse;
     }
 
+    public FoodInfoResponses findTopRatingFood(){
+        List<FoodCategory> foodCategories = new ArrayList<>(EnumSet.allOf(FoodCategory.class));
+        List<Food> topFood = new ArrayList<>();
+
+        for (FoodCategory foodCategory : foodCategories) {
+            List<Food> foodOrderByRatingDesc = foodRepository.findAllByCategoryOrderByRatingDesc(foodCategory);
+
+            if (!foodOrderByRatingDesc.isEmpty()){
+                topFood.add(foodOrderByRatingDesc.get(0));
+            }
+        }
+
+        return convertFoodInfoResponses(topFood);
+    }
+
+    private FoodInfoResponses findByCategory(final String category){
+        FoodCategory foodCategory = FoodCategory.valueOf(category.toUpperCase());
+
+        List<Food> foodList = foodRepository.findAllByCategory(foodCategory);
+        return convertFoodInfoResponses(foodList);
+    }
     private FoodInfoResponses convertFoodInfoResponses(final List<Food> foodList){
         List<FoodInfoResponse> foodInfoResponseList = foodList.stream().map(
                 (e) -> mapper.map(e, FoodInfoResponse.class)

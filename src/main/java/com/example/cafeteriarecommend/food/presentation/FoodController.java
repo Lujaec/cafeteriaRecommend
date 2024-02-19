@@ -49,5 +49,9 @@ public class FoodController {
         return ResponseEntity.ok(ApiResponse.success(foodInfoResponses));
     }
 
-    //pagenation
+    @GetMapping("/mainFood")
+    ResponseEntity<ApiResponse<FoodInfoResponses>> readMainFood(){
+        FoodInfoResponses foodInfoResponses = foodService.findTopRatingFood();
+        return ResponseEntity.ok(ApiResponse.success(foodInfoResponses));
+    }
 }

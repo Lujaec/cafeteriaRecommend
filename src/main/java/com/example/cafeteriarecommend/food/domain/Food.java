@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 public class Food {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String imageUrl;
     private String name;

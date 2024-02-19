@@ -12,5 +12,6 @@ import java.util.Optional;
 public interface FoodRepository extends JpaRepository<Food, Long> {
     Optional<Food> findByFoodUUID(final String foodUUID);
     List<Food> findAllByCategory(final FoodCategory category);
+    List<Food> findAllByCategoryOrderByRatingDesc(final FoodCategory category);
     Page<Food> findAllByCategoryAndPlace(final FoodCategory category, final String place, Pageable pageable);
 }

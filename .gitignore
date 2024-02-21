@@ -18,9 +18,9 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
-application-s3.yml
-application-jwt.yml
-application-db.yml
+#application-s3.yml
+#application-jwt.yml
+#application-db.yml
 .idea
 *.iws
 *.iml

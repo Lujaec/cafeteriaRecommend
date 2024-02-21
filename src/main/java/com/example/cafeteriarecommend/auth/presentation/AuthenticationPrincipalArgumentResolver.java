@@ -1,5 +1,6 @@
 package com.example.cafeteriarecommend.auth.presentation;
 
+import com.example.cafeteriarecommend.auth.exception.EmptyAuthorizationHeaderException;
 import com.example.cafeteriarecommend.jwt.application.JwtService;
 import com.example.cafeteriarecommend.jwt.exception.InvalidTokenException;
 import com.example.cafeteriarecommend.member.application.MemberService;
@@ -29,7 +30,7 @@ public class AuthenticationPrincipalArgumentResolver implements HandlerMethodArg
                                   final NativeWebRequest webRequest, final WebDataBinderFactory binderFactory) {
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         if(request.getHeader(HttpHeaders.AUTHORIZATION) == null)
-            return null;
+            throw new EmptyAuthorizationHeaderException();
 
         String accessToken = AuthorizationExtractor.extract(request);
 

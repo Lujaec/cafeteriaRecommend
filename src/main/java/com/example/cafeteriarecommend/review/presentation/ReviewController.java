@@ -1,5 +1,7 @@
 package com.example.cafeteriarecommend.review.presentation;
 
+import com.example.cafeteriarecommend.auth.presentation.AuthenticationPrincipal;
+import com.example.cafeteriarecommend.member.domain.Member;
 import com.example.cafeteriarecommend.review.application.ReviewService;
 import com.example.cafeteriarecommend.review.application.dto.ReviewCreateDto;
 import com.example.cafeteriarecommend.review.presentation.dto.request.ReviewCreateRequest;
@@ -22,13 +24,10 @@ public class ReviewController {
 
     @PostMapping()
     ResponseEntity<ApiResponse<ReviewInfoResponse>> create (
+            @AuthenticationPrincipal Member member,
             @RequestBody ReviewCreateRequest request
     ){
-        String memberUUID = UUID.randomUUID().toString();
-
-        //삭제해야할 코드
-        memberUUID = "1234-5678-9010";
-        //
+        String memberUUID = member.getMemberUUID();
 
         ReviewCreateDto dto = mapper.map(request, ReviewCreateDto.class);
         dto.setMemberUUID(memberUUID);
